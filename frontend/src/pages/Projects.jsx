@@ -9,6 +9,7 @@ const Projects = () => {
   const [projects, setProjects] = useState([])
   const [users, setUsers] = useState([])
   const [error, setError] = useState('')
+  const [info, setInfo] = useState('')
   const [showModal, setShowModal] = useState(false)
   const [form, setForm] = useState({ name: '' })
   const [memberForms, setMemberForms] = useState({})
@@ -41,6 +42,7 @@ const Projects = () => {
   const handleCreate = async (event) => {
     event.preventDefault()
     setError('')
+    setInfo('')
     try {
       await api.post('/projects', form)
       setForm({ name: '' })
@@ -59,8 +61,11 @@ const Projects = () => {
     const userId = memberForms[projectId]
     if (!userId) return
 
+    setError('')
+    setInfo('')
     try {
-      await api.post(`/projects/${projectId}/members`, { userId })
+      const { data } = await api.post(`/projects/${projectId}/members`, { userId })
+      setInfo(data?.message || 'Member updated.')
       setMemberForms((prev) => ({ ...prev, [projectId]: '' }))
       loadProjects()
     } catch (err) {
@@ -72,8 +77,11 @@ const Projects = () => {
     const userId = memberForms[projectId]
     if (!userId) return
 
+    setError('')
+    setInfo('')
     try {
-      await api.delete(`/projects/${projectId}/members/${userId}`)
+      const { data } = await api.delete(`/projects/${projectId}/members/${userId}`)
+      setInfo(data?.message || 'Member removed.')
       setMemberForms((prev) => ({ ...prev, [projectId]: '' }))
       loadProjects()
     } catch (err) {
@@ -85,6 +93,7 @@ const Projects = () => {
     <div className="space-y-8">
       <TopBar title="Projects" subtitle="Manage team spaces and membership." />
       {error && <p className="text-sm text-rose">{error}</p>}
+      {info && <p className="text-sm text-mint">{info}</p>}
 
       <section className="flex items-center justify-between">
         <p className="text-sm text-steel">{projects.length} active projects</p>

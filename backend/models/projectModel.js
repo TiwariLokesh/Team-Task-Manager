@@ -35,10 +35,10 @@ const listProjectsForUser = async (userId, role) => {
 
 const addMember = async (projectId, userId) => {
   const [result] = await pool.query(
-    'INSERT INTO project_members (project_id, user_id) VALUES (?, ?)',
+    'INSERT IGNORE INTO project_members (project_id, user_id) VALUES (?, ?)',
     [projectId, userId]
   )
-  return result.insertId
+  return result.affectedRows
 }
 
 const removeMember = async (projectId, userId) => {

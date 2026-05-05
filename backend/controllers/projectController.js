@@ -25,7 +25,11 @@ const addMember = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: 'User not found.' })
   }
 
-  await projectModel.addMember(projectId, userId)
+  const added = await projectModel.addMember(projectId, userId)
+  if (!added) {
+    return res.json({ message: 'User is already a member.' })
+  }
+
   return res.status(201).json({ message: 'Member added.' })
 })
 
