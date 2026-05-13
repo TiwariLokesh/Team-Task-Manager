@@ -77,9 +77,7 @@ const Signup = () => {
               <option value="member">Member</option>
               <option value="admin">Admin</option>
             </select>
-            <span className="mt-2 block text-xs text-steel">
-              In production, admins are typically assigned by another admin.
-            </span>
+            
           </label>
 
           {error && <p className="text-sm text-rose">{error}</p>}
