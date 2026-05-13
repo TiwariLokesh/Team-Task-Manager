@@ -52,12 +52,16 @@ A full-stack task management app with role-based access, JWT authentication, and
 ### Frontend (.env)
 - VITE_API_BASE_URL
 
-## Deployment (Railway)
-1. Create a MySQL service in Railway and note the connection values.
-2. Create a backend service and set the backend environment variables.
-3. Create a frontend service and set VITE_API_BASE_URL to the backend URL.
-4. Update FRONTEND_URL on the backend to match the frontend URL.
-5. Deploy both services.
+## Deployment (Render + Vercel)
+Railway credits expired, so the backend is deployed on Render and the frontend on Vercel.
+
+1. Create a hosted MySQL database (Aiven used here) and note the connection values.
+2. Create a backend service on Render and set backend environment variables, including:
+   - DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT
+   - DB_SSL=true and DB_CA (Aiven CA certificate)
+3. Deploy the backend and verify /api/health.
+4. Create a frontend project on Vercel and set VITE_API_BASE_URL to the backend URL.
+5. Update FRONTEND_URL on the backend to match the Vercel domain.
 
 ## API Overview
 - POST /api/auth/signup
